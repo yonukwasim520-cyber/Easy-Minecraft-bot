@@ -26,7 +26,7 @@ apt install git -y
 
 Step 3: Download Easy Minecraft Bot
 
-git clone https://github.com/yonukwasim520-cyber/Easy-Minecraft-bot.git
+git clone https://github.com/yonukwasim520-cyber/ubiquitous-pancake.git
 
 ---
 
