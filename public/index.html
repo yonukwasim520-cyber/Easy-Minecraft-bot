@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MC Bot Panel</title>
+
+<style>
+body { background:#111; color:white; font-family:Arial; text-align:center; }
+.box { background:#222; margin:10px; padding:10px; border-radius:10px; }
+button { margin:3px; }
+</style>
+</head>
+
+<body>
+
+<h2>🤖 Minecraft Bot Dashboard</h2>
+
+<input id="host" placeholder="IP">
+<input id="port" placeholder="PORT">
+<input id="name" value="Bot">
+
+<br>
+<button onclick="connect()">Connect</button>
+
+<p id="status"></p>
+
+<div class="box">
+<h3>👁 HUD</h3>
+❤️ <span id="v_hp">-</span><br>
+🍗 <span id="v_food">-</span><br>
+⭐ <span id="v_xp">-</span>
+</div>
+
+<div class="box">
+<h3>📡 GPS</h3>
+X <span id="gx">-</span><br>
+Y <span id="gy">-</span><br>
+Z <span id="gz">-</span>
+</div>
+
+<div class="box">
+<h3>📦 Inventory</h3>
+<ul id="inv"></ul>
+</div>
+
+<div class="box">
+<h3>👥 Players</h3>
+<ul id="players"></ul>
+<button onclick="socket.emit('stopFollow')">Stop Follow</button>
+</div>
+
+<div class="box">
+<h3>📍 Go XYZ</h3>
+<input id="tx"><input id="ty"><input id="tz">
+<button onclick="goXYZ()">Go</button>
+</div>
+
+<div class="box">
+<h3>⚔ Combat</h3>
+<button onclick="socket.emit('attack')">Hit</button>
+<button onclick="socket.emit('toggleAttack')">Auto</button>
+<button onclick="socket.emit('rightClick')">Right Click</button>
+</div>
+
+<div class="box">
+<h3>👁 Vision</h3>
+
+<button onclick="openVision()">
+Open Vision
+</button>
+
+</div>
+
+<div class="box">
+<h3>💬 Chat</h3>
+<div id="chat"></div>
+<input id="msg">
+<button onclick="send()">Send</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io()
+
+function connect(){
+  socket.emit('connectBot',{
+    host:host.value,
+    port:port.value,
+    username:name.value
+  })
+}
+
+socket.on('status', s=>status.innerText=s)
+
+socket.on('stats', d=>{
+  v_hp.innerText=d.health
+  v_food.innerText=d.food
+  v_xp.innerText=d.xp
+})
+
+socket.on('gps', g=>{
+  gx.innerText=g.x
+  gy.innerText=g.y
+  gz.innerText=g.z
+})
+
+socket.on('inventory', items=>{
+  inv.innerHTML=''
+  items.forEach(i=>{
+    const li=document.createElement('li')
+    li.innerHTML=`
+      ${i.name} x${i.count}
+      <button onclick="socket.emit('eatItem','${i.name}')">Eat</button>
+      <button onclick="socket.emit('dropItem','${i.name}')">Drop</button>
+      <button onclick="socket.emit('equipItem','${i.name}')">Equip</button>
+    `
+    inv.appendChild(li)
+  })
+})
+
+socket.on('playersList', list=>{
+  players.innerHTML=''
+  list.forEach(n=>{
+    const li=document.createElement('li')
+    li.innerHTML=`
+      ${n}
+      <button onclick="socket.emit('followPlayer','${n}')">Follow</button>
+    `
+    players.appendChild(li)
+  })
+})
+
+function goXYZ(){
+  socket.emit('gotoXYZ',{
+    x:tx.value,y:ty.value,z:tz.value
+  })
+}
+
+socket.on('chatLog',m=>{
+  chat.innerHTML+=m+'<br>'
+})
+
+function send(){
+  socket.emit('chat',msg.value)
+}
+
+ function openVision(){
+  window.open('http://localhost:3007', '_blank')
+}
+
+</script>
+
+</body>
+</html>
