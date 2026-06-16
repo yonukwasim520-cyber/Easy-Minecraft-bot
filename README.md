@@ -66,3 +66,6 @@ Features
 - Simple setup and configuration
 
 Enjoy!
+
+But, a piece of advice
+You have to rely apt It is forbidden to use pkg Do not use it in any way, or it will never work. Be careful; any small mistake will cause everything to break and you will have to start all over again. If you want to use the tool without needing it ub It's impossible to exploit performance unless you're inside ub Or else you'll have to start all over again. Pay attention to this important advice
