@@ -30,11 +30,10 @@ apt install git -y
 4. Download the project
 
 git clone https://github.com/yonukwasim520-cyber/Easy-Minecraft-bot.git
+
+5. Accessing the tool folder
+
 cd Easy-Minecraft-bot
-
-5. Install dependencies
-
-npm install
 
 If the command above does not work, install the packages manually:
 
@@ -44,10 +43,9 @@ npm install mineflayer mineflayer-pathfinder express socket.io prismarine-viewer
 
 node server.js
 
-7. Open the web panel
+7. Open a local site
 
-After starting the server, a local web address will appear in the terminal. Open it in your browser to access the control panel and manage your bot.
-
+When you run the tool, you must enter the website address 127.0.0.1:3000 Now that you open the site, you can control the bot, and it requires some things Enjoy
 Features
 
 - Easy-to-use web interface
