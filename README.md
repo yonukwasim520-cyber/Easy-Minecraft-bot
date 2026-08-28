@@ -39,7 +39,7 @@ If the command above does not work, install the packages manually:
 
 apt install npm
 
-npm install mineflayer mineflayer-pathfinder express socket.io prismarine-viewer
+npm install mineflayer mineflayer-pathfinder express socket.io prismarine-viewer canvas
 
 6. Start the bot
 
